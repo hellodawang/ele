@@ -2,10 +2,11 @@
   <div id="app">
     <v-header></v-header>
     <div class="tab">
-      <div class="tab-item">商品</div>
-      <div class="tab-item">评论</div>
-      <div class="tab-item">商家</div>
+      <div class="tab-item"><router-link to="/goods">商品</router-link></div>
+      <div class="tab-item"><router-link to="/comment">评论</router-link></div>
+      <div class="tab-item"><router-link to="/seller">商家</router-link></div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 import header from './components/header/header'
 export default {
   components: {
+    // 注册组件
     'v-header': header
   }
 }
@@ -21,11 +23,17 @@ export default {
 <style lang='scss' scoped="" >
   .tab{
     display: flex;
-    height: 0.4rem;
+    height: 0.8rem;
     .tab-item{
       flex: 1;
       text-align: center;
-      line-height: 0.4rem;
+      line-height: 0.8rem;
+      a{
+        display: block;
+      }
+      a.active{
+        color: #f66;
+      }
     }
   }
 </style>
