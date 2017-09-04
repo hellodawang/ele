@@ -6,8 +6,11 @@ import VueRouter from 'vue-router'
 import goods from './components/goods/goods'
 import comment from './components/comment/comment'
 import seller from './components/seller/seller'
+import axios from 'axios'
 
 Vue.use(VueRouter)
+// Vue.use(axios)
+Vue.prototype.$ajax = axios
 Vue.config.productionTip = false
 
 // 配置路由
@@ -21,6 +24,8 @@ const router = new VueRouter({
   routes: routes,
   linkActiveClass: 'active'
 })
+
+// ajax请求
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

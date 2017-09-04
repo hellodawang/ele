@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    <v-header ></v-header>
     <div class="tab">
       <div class="tab-item"><router-link to="/goods">商品</router-link></div>
       <div class="tab-item"><router-link to="/comment">评论</router-link></div>
@@ -13,9 +13,23 @@
 <script>
 import header from './components/header/header'
 export default {
+  data () {
+    return {
+      seller: {}
+    }
+  },
   components: {
     // 注册组件
     'v-header': header
+  },
+  created: function () {
+    var that = this
+    this.$ajax('./api/seller')
+      .then(function (response) {
+        that.$nextTick(function () {
+          this.seller = response.data
+        })
+      })
   }
 }
 </script>
