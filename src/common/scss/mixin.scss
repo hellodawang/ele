@@ -1,0 +1,4 @@
+@mixin icon-bg($url){
+  background:url($url+'@2x.png') no-repeat center center;
+  background-size:cover;
+}

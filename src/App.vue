@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-header ></v-header>
+    <v-header :seller="seller" ></v-header>
     <div class="tab">
       <div class="tab-item"><router-link to="/goods">商品</router-link></div>
       <div class="tab-item"><router-link to="/comment">评论</router-link></div>
@@ -27,7 +27,7 @@ export default {
     this.$ajax('./api/seller')
       .then(function (response) {
         that.$nextTick(function () {
-          this.seller = response.data
+          this.seller = response.data.data
         })
       })
   }
@@ -35,6 +35,7 @@ export default {
 </script>
 
 <style lang='scss' scoped="" >
+  @import url('./common/scss/base.scss');
   .tab{
     display: flex;
     height: 0.8rem;
@@ -44,9 +45,9 @@ export default {
       line-height: 0.8rem;
       a{
         display: block;
-      }
-      a.active{
-        color: #f66;
+        &.active{
+          color: #f66;
+        }
       }
     }
   }
