@@ -23,12 +23,9 @@ export default {
     'v-header': header
   },
   created: function () {
-    var that = this
     this.$ajax('./api/seller')
-      .then(function (response) {
-        that.$nextTick(function () {
-          this.seller = response.data.data
-        })
+      .then((response) => {
+        this.seller = response.data.data
       })
   }
 }
@@ -39,10 +36,12 @@ export default {
   .tab{
     display: flex;
     height: 0.8rem;
+    border-bottom: 0.01rem solid rgba(7, 17, 27, 0.2);
     .tab-item{
       flex: 1;
       text-align: center;
       line-height: 0.8rem;
+      font-size: 0.24rem;
       a{
         display: block;
         &.active{

@@ -203,6 +203,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 0.56rem;
+      font-size: 0.24rem;
       .bulletin-title{
         display: inline-block;
         width: 0.44rem;
@@ -233,6 +234,7 @@
       height: 100%;
       overflow: auto;
       background-color: rgba(7,17,27,0.8);
+      // 只适用于ios
       backdrop-filter: blur(0.1rem);
       &.fade-enter-active, .fade-leave-active {
         transition: opacity .5s

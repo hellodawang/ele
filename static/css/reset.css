@@ -18,8 +18,8 @@ time, mark, audio, video, input {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 0.24rem; 
-    font-weight: 200;
+    /* font-size: 0.24rem;  */
+    /* font-weight: 200; */
     vertical-align: baseline;
 }
 
@@ -84,6 +84,8 @@ html, body {
     width: 100%;
     /* font-family: tahoma, arial, sans-serif; */
     font-weight: 200;
+    font-family:Helvetica;
+    font-size: 0.24rem;
 }
 
 body {
