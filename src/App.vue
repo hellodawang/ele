@@ -6,7 +6,7 @@
       <div class="tab-item"><router-link to="/comment">评论</router-link></div>
       <div class="tab-item"><router-link to="/seller">商家</router-link></div>
     </div>
-    <router-view></router-view>
+    <router-view :seller="seller"></router-view>
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
   .tab{
     display: flex;
     height: 0.8rem;
-    border-bottom: 0.01rem solid rgba(7, 17, 27, 0.2);
+    border-bottom: 0.01rem solid rgba(7, 17, 27, 0.1);
     .tab-item{
       flex: 1;
       text-align: center;
