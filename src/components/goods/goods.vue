@@ -30,19 +30,23 @@
                   <span class="now">￥{{food.price}}</span>
                   <span v-show="food.oldPrice" class="old">￥{{food.oldPrice}}</span>
                 </div>
+                <div class="carcontrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
 <script type='ecmascript-6'>
   import bscroll from 'better-scroll'
-  import shopCart from '../shopCart/shopCart.vue'
+  import shopcart from '../shopCart/shopCart.vue'
+  import cartcontrol from '../cartControl/cartControl.vue'
   export default{
     props: {
       seller: {
@@ -50,7 +54,8 @@
       }
     },
     components: {
-      'shopcart':shopCart
+      shopcart,
+      cartcontrol
     },
     data() {
       return {
@@ -81,6 +86,17 @@
           }
         }  
         return 0
+      },
+      selectFoods() {
+       let foods = []
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if(food.count) {
+              foods.push(food)
+            }
+          })
+        })     
+        return foods
       }
     },
     methods: {
@@ -89,6 +105,7 @@
           click:true
         })
         this.foodScroll = new bscroll(this.$refs.foodsWrapper,{
+          click:true,
           probeType:3
         });
         this.foodScroll.on("scroll",(pos) => {
@@ -108,7 +125,7 @@
         let foodList = this.$refs.foodsWrapper.getElementsByClassName("foods-list")
         let el = foodList[index]
         this.foodScroll.scrollToElement(el,300);
-      }
+      },
     }
   }
 </script>
@@ -196,6 +213,7 @@
           }
           .content{
             flex: 1;
+            position: relative;
             .name{
               font-size: 0.28rem;
               color: rgb(7, 17, 27);
@@ -232,6 +250,12 @@
                 color: rgb(147, 153, 159);
                 font-weight: 700;
               }
+            }
+            .carcontrol-wrapper{
+              position: absolute;
+              right: 0;
+              bottom: 0.24rem;
+
             }
           }
         }

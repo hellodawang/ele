@@ -34,14 +34,14 @@
     },
     computed: {
       totalPrice() {
-        let total = 20;
+        let total = 0;
         this.selectFoods.forEach((food) => {
           total += food.price *food.count;
         })
         return total
       },
       totalCount() {
-        let count = 1;
+        let count = 0;
         this.selectFoods.forEach((food) => {
           count += food.count
         })
