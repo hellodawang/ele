@@ -3,14 +3,15 @@
     <div class="content">
       <div class="content-left">
         <div class="logo-wrapper">
-          <div class="logo">
-            <i class="iconfont icon-cart"></i>
+          <div class="logo" :class="{'active':totalCount>0}">
+            <i class="iconfont icon-cart" :class="{'active':totalCount>0}"></i>
           </div>
+          <div class="num" v-show="totalCount>0">{{totalCount}}</div>
         </div>
-        <div class="price">￥ 0</div>
+        <div class="price" :class="{'active':totalCount>0}">￥ {{totalPrice}}</div>
         <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
-      <div class="content-right">￥{{minPrice}}起送</div>
+      <div class="content-right" :class="{'enough':totalPrice>=minPrice}">{{payDesc}}</div>
     </div>
   </div>
 </template>
@@ -18,12 +19,44 @@
 <script type='ecmascript-6'>
   export default{
     props :{
+      selectFoods: {
+        type: Array,
+        default() {
+          return [];
+        }
+      },
       deliveryPrice: {
         type :Number
       },
       minPrice: {
         type :Number
       },
+    },
+    computed: {
+      totalPrice() {
+        let total = 20;
+        this.selectFoods.forEach((food) => {
+          total += food.price *food.count;
+        })
+        return total
+      },
+      totalCount() {
+        let count = 1;
+        this.selectFoods.forEach((food) => {
+          count += food.count
+        })
+        return count
+      },
+      payDesc() {
+        if(this.totalPrice === 0) {
+          return `￥${this.minPrice}元起送`
+        }else if(this.totalPrice<this.minPrice){
+          let diff = this.minPrice - this.totalPrice
+          return `还差￥${diff}元起送`
+        }else{
+          return '去结算'
+        }
+      }
     }
   }
 </script>
@@ -62,11 +95,31 @@
             border-radius: 50%;
             background-color: #2b343c;
             text-align: center;
+            &.active{
+              background-color: rgb(0, 160, 220);
+            }
             .icon-cart{
               font-size: 0.5rem;
               line-height: 0.88rem;
-              color: #80858a
+              color: #80858a;
+              &.active{
+                color:#fff;
+              }
             }
+          }
+          .num{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0.48rem;
+            height: 0.32rem;
+            line-height: 0.32rem;
+            text-align: center;
+            font-size: 0.18rem;
+            color: #fff;
+            border-radius: 0.16rem;
+            background-color: rgb(240, 20, 20);
+            box-shadow: 0px 0.04rem 0.08rem 0 rgba(0, 0, 0, 0.4)
           }
         }
         .price{
@@ -78,7 +131,10 @@
           border-right: 0.01rem solid rgba(255, 255, 255, 0.1);
           font-size:0.32rem;
           font-weight: 700;
-          color: rgba(255, 255, 255, 0.4)
+          color: rgba(255, 255, 255, 0.4);
+          &.active{
+            color: #fff;
+          }
         }
         .desc{
           display: inline-block;
@@ -100,6 +156,10 @@
         font-size: 0.24rem;
         text-align: center;
         background-color: #2b343c;
+        &.enough{
+          background-color: #00b43c;
+          color: #fff
+        }
       }
     }
   }
