@@ -31,7 +31,7 @@
                   <span v-show="food.oldPrice" class="old">￥{{food.oldPrice}}</span>
                 </div>
                 <div class="carcontrol-wrapper">
-                  <cartcontrol :food="food"></cartcontrol>
+                  <cartcontrol :food="food" v-on:addcount="drop" ></cartcontrol>
                 </div>
               </div>
             </li>
@@ -39,7 +39,8 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"
+    ref="shopcart"></shopcart>
   </div>
 </template>
 
@@ -126,6 +127,10 @@
         let el = foodList[index]
         this.foodScroll.scrollToElement(el,300);
       },
+      drop(target) {
+        // 通过此方法调用子组件中的方法
+        this.$refs.shopcart.drop(target)
+      }
     }
   }
 </script>

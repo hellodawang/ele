@@ -2,7 +2,7 @@
   <div class="cart-control">
     <transition name="slide">
       <div class="cart-decrease" v-show="food.count>0" @click="descrease">
-        <i class="iconfont icon-remove"></i>
+        <i class="iconfont icon-remove"></i>  
       </div>  
     </transition>
     <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
@@ -29,6 +29,7 @@
         }else{
           this.food.count ++;
         }
+        this.$emit('addcount',event.target)
       },
       descrease() {
         this.food.count --;
@@ -47,11 +48,12 @@
       line-height: 0.24rem;
       color: rgb(0, 160, 220);
       vertical-align: top;
-      &.slide-enter-active{
-        transition: all 5s ease
+      &.slide-enter-active, &.slide-leave-active {
+        transition: all .5s ease;
       }
-      &.slide-enter{
-        transform: translate3d(10px)
+      &.slide-enter, &.slide-leave-to /* .fade-leave-active 在低于版本 2.1.8 中 */ {
+        transform: translate(0.24rem) rotate(180deg);
+        opacity: 0
       }
     }
     .cart-count{

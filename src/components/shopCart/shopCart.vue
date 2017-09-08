@@ -13,6 +13,12 @@
       </div>
       <div class="content-right" :class="{'enough':totalPrice>=minPrice}">{{payDesc}}</div>
     </div>
+    <!-- 抛物线小球动画 -->
+    <div class="ball-container" >
+      <transition-group v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter" v-on:enter="enter" >
+        <div v-for="(ball,index) in balls" v-show="ball.show" class="ball" v-bind:key="index"></div> 
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -31,6 +37,16 @@
       minPrice: {
         type :Number
       },
+    },
+    data() {
+      return {
+        balls: [
+          {show:false},
+          {show:false},
+          {show:false},
+        ],
+        dropballs:[]
+      }
     },
     computed: {
       totalPrice() {
@@ -57,8 +73,53 @@
           return '去结算'
         }
       }
+    },
+    methods: {
+      drop(el) {
+        for(let i = 0;i<this.balls.length; i++){
+          let ball = this.balls[i];
+          if(!ball.show){
+            ball.show = true;
+            ball.el = el;
+            this.dropballs.push(ball);
+            return
+          }
+        }
+      },
+      beforeEnter(el) {
+        // 遍历所有的小球  找出show为true的小球
+        // 方法里面的参数是执行当前动画的dom对象
+        let count = this.balls.length;
+        while(count--){
+          let ball = this.balls[count];
+          // 如果show为true 获得当前点击按钮的位置 计算偏移值
+          if(ball.show){
+            let rect = ball.el.getBoundingClientRect();
+            let x = rect.left - window.innerWidth*100*0.64/750;
+            let y = - (window.innerHeight -rect.top -window.innerWidth*100*0.44/750);
+            // el.style.display='';
+            el.style.transform = `translate3d(${x}px,${y}px,0)` 
+          }
+        }
+      },
+      enter(el,done) {
+        // 
+        this.$nextTick(() => {
+          el.style.transform = `translated3d(0,0,0)`;
+          el.style.transition='all 1s cubic-bezier(.65,-0.71,.83,.67)'
+          done()
+        })
+        
+      },
+      afterEnter(el) {
+        let ball = this.dropballs.shift();
+        if(ball){
+          ball.show = false;
+          el.style.display = 'none'
+        }
+      }
     }
-  }
+   }
 </script>
 
 <style lang='scss' scoped='' type='text/css'>
@@ -159,6 +220,24 @@
         &.enough{
           background-color: #00b43c;
           color: #fff
+        }
+      }
+    }
+    .ball-container{
+      .ball{
+        position: fixed;
+        left: 0.64rem;
+        bottom: 0.44rem;
+        z-index: 200;
+        width: 0.32rem;
+        height: 0.32rem;
+        border-radius: 50%;
+        background-color: rgb(0, 160, 220);
+        &.drop-enter-active{
+          transition: all 1s cubic-bezier(.65,-0.71,.83,.67)  
+        }
+        &.drp-enter-to{
+          transform: translate3d(0,0,0)
         }
       }
     }
